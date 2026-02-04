@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-// hello
+#include <cmath>
+
 int main()
 {
     const unsigned int WIDTH = 1920;
