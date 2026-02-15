@@ -3,6 +3,10 @@
 #include <string>
 #include <cmath>
 #include "TitleScreen.h"
+#include "Pad.h"
+#include "GameManager.h"
+#include "InputManager.h"
+#include "MainManager.h"
 
 int main()
 {
@@ -12,20 +16,21 @@ int main()
     window.setFramerateLimit(60);
 
     TitleScreen titleScreen(&window, WIDTH, HEIGHT);
+    GameManager gameManager(&window, WIDTH, HEIGHT);
+    MainManager mainManager(&window, &titleScreen, &gameManager);
+    InputManager inputManager(&mainManager, &titleScreen, &gameManager);
 
     // Main loop
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
         {
-            if (event->is<sf::Event::Closed>())
-            {
-                window.close();
-            }
+            inputManager.processEvent(event);
+            inputManager.update();
         }
 
         window.clear();
-        titleScreen.drawTitleScreen();
+        mainManager.updateWindow();
         window.display();
     }
 }

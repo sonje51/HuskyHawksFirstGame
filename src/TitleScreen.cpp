@@ -5,23 +5,24 @@
 #include "TitleScreen.h"
 
 // Default constructor
-TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT) : window(_window),
-                                                                                               bgTop(10, 6, 25),
-                                                                                               bgBottom(6, 20, 40),
-                                                                                               neonMain(0, 255, 200),
-                                                                                               neonAccent(255, 0, 200),
-                                                                                               textFill(230, 230, 255),
-                                                                                               topRect(sf::Vector2f((float)WIDTH, (float)HEIGHT / 2.f)),
-                                                                                               bottomRect(sf::Vector2f((float)WIDTH, (float)HEIGHT / 2.f)),
-                                                                                               leftNeon(sf::Vector2f(6.f, (float)HEIGHT * 0.6f)),
-                                                                                               neonBar(sf::Vector2f(WIDTH * 0.6f, 6.f)),
-                                                                                               rightNeon(leftNeon),
-                                                                                               titleText(font),
-                                                                                               subtitleText(font),
-                                                                                               promptText(font),
-                                                                                               titlePlaceholder(sf::Vector2f(900.f, 160.f)),
-                                                                                               alpha(0.f),
-                                                                                               alphaSpeed(1.5f) // Increase for faster fade
+TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT)
+    : window(_window),
+      bgTop(10, 6, 25),
+      bgBottom(6, 20, 40),
+      neonMain(0, 255, 200),
+      neonAccent(255, 0, 200),
+      textFill(230, 230, 255),
+      topRect(sf::Vector2f((float)WIDTH, (float)HEIGHT / 2.f)),
+      bottomRect(sf::Vector2f((float)WIDTH, (float)HEIGHT / 2.f)),
+      leftNeon(sf::Vector2f(6.f, (float)HEIGHT * 0.6f)),
+      neonBar(sf::Vector2f(WIDTH * 0.6f, 6.f)),
+      rightNeon(leftNeon),
+      titleText(font),
+      subtitleText(font),
+      promptText(font),
+      titlePlaceholder(sf::Vector2f(900.f, 160.f)),
+      alpha(0.f),
+      alphaSpeed(1.5f) // Increase for faster fade
 {
     // Background gradient using two rectangles
     topRect.setPosition({0.f, 0.f});
