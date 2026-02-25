@@ -1,20 +1,32 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.26)
 project(HuskyHawksFirstGame LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+# Download and build SFML 3.0.2
 include(FetchContent)
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.2
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM)
+FetchContent_Declare(
+  SFML
+  GIT_REPOSITORY https://github.com/SFML/SFML.git
+  GIT_TAG 3.0.2
+  GIT_SHALLOW TRUE
+)
+
+# This downloads AND builds SFML
 FetchContent_MakeAvailable(SFML)
 
-file(GLOB SRC_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")
-add_executable(main ${SRC_FILES})
-target_compile_features(main PRIVATE cxx_std_17)
-target_link_libraries(main PRIVATE SFML::Graphics)
+# SFML targets are now available directly (no find_package needed)
+# They are named: sfml-graphics, sfml-window, sfml-system
 
+add_executable(main src/main.cpp)
+target_compile_features(main PRIVATE cxx_std_17)
+
+# Link to the SFML targets built by FetchContent
+target_link_libraries(main PRIVATE 
+    sfml-graphics
+    sfml-window
+    sfml-system
+)
+
+# Include directories should be automatically added
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT main)
