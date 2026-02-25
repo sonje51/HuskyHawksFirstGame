@@ -3,6 +3,14 @@
 #include <string>
 #include <cmath>
 
+enum class GameState {
+    Menu,
+    Playing,
+    Controls,
+    Credits,
+    Paused
+};
+
 int main() {
     const unsigned int WIDTH  = 1920;
     const unsigned int HEIGHT = 1080;
@@ -12,8 +20,9 @@ int main() {
     // Colors for neon retro
     const sf::Color bgTop(10, 6, 25);        // deep purple
     const sf::Color bgBottom(6, 20, 40);     // dark blue
-    const sf::Color neonMain(0, 255, 200);   // cyan-green neon
-    const sf::Color neonAccent(255, 0, 200); // magenta accent
+    const sf::Color neonMain(0, 255, 200);   // neon cyan-green
+    const sf::Color neonAccent(255, 0, 200); // neon magenta accent
+    const sf::Color neonSelect(255, 200, 0); // neon orange
     const sf::Color textFill(230, 230, 255);
 
     // Background gradient using two rectangles
@@ -34,7 +43,7 @@ int main() {
 
     sf::RectangleShape rightNeon = leftNeon;
     rightNeon.setPosition({(float)WIDTH - 86.f, (float)HEIGHT * 0.2f});
-    rightNeon.setFillColor(neonMain);
+    rightNeon.setFillColor(neonAccent);
 
     // Try to load a font from assets; if missing, we'll use a placeholder title shape
     sf::Font font;
@@ -44,10 +53,15 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    // Title and subtitle
+    // Title, subtitle, and options
     sf::Text titleText(font);
     sf::Text subtitleText(font);
     sf::Text promptText(font);
+    sf::Text playText(font);
+    sf::Text controlsText(font);
+    sf::Text creditsText(font);
+    sf::Text quitText(font);
+
 
     // titleText.setFont(font);
     titleText.setString("BREAKOUT");
@@ -68,6 +82,24 @@ int main() {
     promptText.setCharacterSize(50);
     promptText.setFillColor(sf::Color(220, 220, 255));
 
+    // Menu Options
+    // playText
+    playText.setString("Play");
+    playText.setCharacterSize(50);
+    playText.setFillColor(textFill);
+    // controlsText
+    controlsText.setString("Controls");
+    controlsText.setCharacterSize(50);
+    controlsText.setFillColor(textFill);
+    // creditsText
+    creditsText.setString("Credits");
+    creditsText.setCharacterSize(50);
+    creditsText.setFillColor(textFill);
+    // quitText
+    quitText.setString("Quit");
+    quitText.setCharacterSize(50);
+    quitText.setFillColor(textFill);
+
 
     // Positioning helper (center)
     auto centerOrigin = [](sf::Text& t) {
@@ -86,6 +118,18 @@ int main() {
 
     centerOrigin(promptText);
     promptText.setPosition({WIDTH * 0.5f, HEIGHT * 0.82f});
+
+    centerOrigin(playText);
+    playText.setPosition({WIDTH * 0.5f, HEIGHT * 0.65f});
+
+    centerOrigin(controlsText);
+    controlsText.setPosition({WIDTH * 0.5f, HEIGHT * 0.70f});
+
+    centerOrigin(creditsText);
+    creditsText.setPosition({WIDTH * 0.5f, HEIGHT * 0.75f});
+
+    centerOrigin(quitText);
+    quitText.setPosition({WIDTH * 0.5f, HEIGHT * 0.80f});
     
 
     // Placeholder title rectangle
@@ -96,15 +140,73 @@ int main() {
     titlePlaceholder.setPosition({WIDTH * 0.5f - titlePlaceholder.getSize().x / 2.f, HEIGHT * 0.22f});
 
 
+    // Loop variables
     // Fade-in control
     float alpha = 0.f;
     const float alphaSpeed = 1.5f; // increase for faster fade
 
+    // Menu variables
+    GameState currentState = GameState::Menu;
+    const int numMenuOptions = 4;
+    int selectedOption = 0;    // 0=Play, 1=Controls, 2=Credits, 3=Quit
+
+
+
     // Main loop
     while (window.isOpen()) {
+        // Event handling
         while (const std::optional event = window.pollEvent()) {
+            // Window close event
             if (event->is<sf::Event::Closed>()) {
                 window.close();
+            }
+
+            switch (currentState) {
+                case GameState::Menu:
+                {
+                    if (event->is<sf::Event::KeyPressed>()) {
+                        auto keyEvent = event->getIf<sf::Event::KeyPressed>();
+
+                        if (keyEvent->scancode == sf::Keyboard::Scancode::Up) {
+                            selectedOption = (selectedOption - 1 + numMenuOptions) % numMenuOptions;
+                        } else if (keyEvent->scancode == sf::Keyboard::Scancode::Down) {
+                            selectedOption = (selectedOption + 1) % numMenuOptions;
+                        } else if (keyEvent->scancode == sf::Keyboard::Scancode::Enter) {
+                            // Handle menu selection
+                            switch (selectedOption) {
+                                case 0:
+                                    currentState = GameState::Playing;
+                                    break;
+                                case 1:
+                                    currentState = GameState::Controls;
+                                    break;
+                                case 2:
+                                    currentState = GameState::Credits;
+                                    break;
+                                case 3:
+                                    window.close();
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                }
+                
+                case GameState::Playing:
+                    // Game input here
+                    break;
+                    
+                case GameState::Paused:
+                    // Paused input here
+                    break;
+                    
+                case GameState::Controls:
+                    // Controls input here
+                    break;
+                    
+                case GameState::Credits:
+                    // Credits input here
+                    break;
             }
         }
 
@@ -120,7 +222,7 @@ int main() {
         topRect.setFillColor(applyAlpha(bgTop));
         bottomRect.setFillColor(applyAlpha(bgBottom));
         leftNeon.setFillColor(applyAlpha(neonAccent));
-        rightNeon.setFillColor(applyAlpha(neonMain));
+        rightNeon.setFillColor(applyAlpha(neonAccent));
         titlePlaceholder.setOutlineColor(applyAlpha(neonMain));
         promptText.setFillColor(applyAlpha(promptText.getFillColor()));
 
@@ -158,9 +260,55 @@ int main() {
         subtitleText.setFillColor(applyAlpha(subtitleText.getFillColor()));
         window.draw(subtitleText);
 
-        promptText.setFillColor(applyAlpha(promptText.getFillColor()));
-        window.draw(promptText);
+        //promptText.setFillColor(applyAlpha(promptText.getFillColor()));
+        //window.draw(promptText);
 
+        // Menu options
+        if (selectedOption==0) {
+            playText.setFillColor(neonSelect);
+            playText.setCharacterSize(75);
+        } else {
+            playText.setFillColor(textFill);
+            playText.setCharacterSize(50);
+        }
+        centerOrigin(playText);
+        playText.setFillColor(applyAlpha(playText.getFillColor()));
+        window.draw(playText);
+
+        if (selectedOption==1) {
+            controlsText.setFillColor(neonSelect);
+            controlsText.setCharacterSize(75);
+        } else {
+            controlsText.setFillColor(textFill);
+            controlsText.setCharacterSize(50);
+        }
+        centerOrigin(controlsText);
+        controlsText.setFillColor(applyAlpha(controlsText.getFillColor()));
+        window.draw(controlsText);
+        
+        if (selectedOption==2) {
+            creditsText.setFillColor(neonSelect);
+            creditsText.setCharacterSize(75);
+        } else {
+            creditsText.setFillColor(textFill);
+            creditsText.setCharacterSize(50);
+        }
+        centerOrigin(creditsText);
+        creditsText.setFillColor(applyAlpha(creditsText.getFillColor()));
+        window.draw(creditsText);
+
+        if (selectedOption==3) {
+            quitText.setFillColor(neonSelect);
+            quitText.setCharacterSize(75);
+        } else {
+            quitText.setFillColor(textFill);
+            quitText.setCharacterSize(50);
+        }
+        centerOrigin(quitText);
+        quitText.setFillColor(applyAlpha(quitText.getFillColor()));
+        window.draw(quitText);
+
+        
         window.display();
     }
 }
