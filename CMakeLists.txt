@@ -18,7 +18,14 @@ FetchContent_MakeAvailable(SFML)
 # SFML targets are now available directly (no find_package needed)
 # They are named: sfml-graphics, sfml-window, sfml-system
 
-add_executable(main src/main.cpp)
+add_executable(main
+  src/main.cpp
+  src/GameManager.cpp
+  src/InputManager.cpp
+  src/MainManager.cpp
+  src/Pad.cpp
+  src/TitleScreen.cpp
+)
 target_compile_features(main PRIVATE cxx_std_17)
 
 # Link to the SFML targets built by FetchContent
