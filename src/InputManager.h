@@ -11,10 +11,13 @@ class InputManager
 public:
     InputManager(MainManager *_mainManager, TitleScreen *_titleScreen, GameManager *_gameManager);
 
-    void s(MainManager *ts);
+    void processEvent(const std::optional<sf::Event> &event);
 
-    void processEvent(const std::optional<sf::Event> event);
-    void update();
+    void processEventInMenu(const std::optional<sf::Event> &event);
+    void processEventWhilePlaying(const std::optional<sf::Event> &event);
+    void processEventWhilePaused(const std::optional<sf::Event> &event);
+    void processEventInControls(const std::optional<sf::Event> &event);
+    void processEventInCredits(const std::optional<sf::Event> &event);
 
 private:
     MainManager *mainManager;

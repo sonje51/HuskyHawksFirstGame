@@ -3,6 +3,7 @@
 #include <string>
 #include <cmath>
 #include "TitleScreen.h"
+#include "MainManager.h"
 
 // Default constructor
 TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT)
@@ -11,6 +12,7 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
       bgBottom(6, 20, 40),
       neonMain(0, 255, 200),
       neonAccent(255, 0, 200),
+      neonSelect(255, 200, 0),
       textFill(230, 230, 255),
       topRect(sf::Vector2f((float)WIDTH, (float)HEIGHT / 2.f)),
       bottomRect(sf::Vector2f((float)WIDTH, (float)HEIGHT / 2.f)),
@@ -20,9 +22,15 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
       titleText(font),
       subtitleText(font),
       promptText(font),
+      playText(font),
+      controlsText(font),
+      creditsText(font),
+      quitText(font),
       titlePlaceholder(sf::Vector2f(900.f, 160.f)),
       alpha(0.f),
-      alphaSpeed(1.5f) // Increase for faster fade
+      alphaSpeed(1.5f), // Increase for faster fade
+      numMenuOptions(4),
+      selectedOption(0)
 {
     // Background gradient using two rectangles
     topRect.setPosition({0.f, 0.f});
@@ -38,7 +46,7 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
     leftNeon.setOutlineColor(sf::Color(255, 255, 255, 30));
 
     rightNeon.setPosition({(float)WIDTH - 86.f, (float)HEIGHT * 0.2f});
-    rightNeon.setFillColor(neonMain);
+    rightNeon.setFillColor(neonAccent);
 
     neonBar.setOrigin({neonBar.getSize().x / 2.f, neonBar.getSize().y / 2.f});
     neonBar.setPosition({WIDTH * 0.5f, HEIGHT * 0.58f});
@@ -70,6 +78,24 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
     promptText.setCharacterSize(50);
     promptText.setFillColor(sf::Color(220, 220, 255));
 
+    // Menu Options
+    // playText
+    playText.setString("Play");
+    playText.setCharacterSize(50);
+    playText.setFillColor(textFill);
+    // controlsText
+    controlsText.setString("Controls");
+    controlsText.setCharacterSize(50);
+    controlsText.setFillColor(textFill);
+    // creditsText
+    creditsText.setString("Credits");
+    creditsText.setCharacterSize(50);
+    creditsText.setFillColor(textFill);
+    // quitText
+    quitText.setString("Quit");
+    quitText.setCharacterSize(50);
+    quitText.setFillColor(textFill);
+
     // Positioning helper (center)
     auto centerOrigin = [](sf::Text &t)
     {
@@ -88,6 +114,18 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
 
     centerOrigin(promptText);
     promptText.setPosition({WIDTH * 0.5f, HEIGHT * 0.82f});
+
+    centerOrigin(playText);
+    playText.setPosition({WIDTH * 0.5f, HEIGHT * 0.65f});
+
+    centerOrigin(controlsText);
+    controlsText.setPosition({WIDTH * 0.5f, HEIGHT * 0.70f});
+
+    centerOrigin(creditsText);
+    creditsText.setPosition({WIDTH * 0.5f, HEIGHT * 0.75f});
+
+    centerOrigin(quitText);
+    quitText.setPosition({WIDTH * 0.5f, HEIGHT * 0.80f});
 
     // Placeholder title rectangle
     titlePlaceholder.setFillColor(sf::Color::Transparent);
@@ -113,7 +151,7 @@ void TitleScreen::drawTitleScreen()
     topRect.setFillColor(applyAlpha(bgTop));
     bottomRect.setFillColor(applyAlpha(bgBottom));
     leftNeon.setFillColor(applyAlpha(neonAccent));
-    rightNeon.setFillColor(applyAlpha(neonMain));
+    rightNeon.setFillColor(applyAlpha(neonAccent));
     neonBar.setFillColor(applyAlpha(neonMain));
     titlePlaceholder.setOutlineColor(applyAlpha(neonMain));
     promptText.setFillColor(applyAlpha(promptText.getFillColor()));
@@ -148,6 +186,104 @@ void TitleScreen::drawTitleScreen()
     subtitleText.setFillColor(applyAlpha(subtitleText.getFillColor()));
     window->draw(subtitleText);
 
-    promptText.setFillColor(applyAlpha(promptText.getFillColor()));
-    window->draw(promptText);
+    // promptText.setFillColor(applyAlpha(promptText.getFillColor()));
+    // window->draw(promptText);
+
+    // TODO: merge both centerOrigins into one private method
+    auto centerOrigin = [](sf::Text &t)
+    {
+        sf::FloatRect b = t.getLocalBounds();
+        sf::Vector2f origin(
+            static_cast<float>(std::floor(b.position.x + b.size.x / 2.f)),
+            static_cast<float>(std::floor(b.position.y + b.size.y / 2.f)));
+        t.setOrigin(origin);
+    };
+
+    // Menu options
+    if (selectedOption == 0)
+    {
+        playText.setFillColor(neonSelect);
+        playText.setCharacterSize(75);
+    }
+    else
+    {
+        playText.setFillColor(textFill);
+        playText.setCharacterSize(50);
+    }
+    centerOrigin(playText);
+    playText.setFillColor(applyAlpha(playText.getFillColor()));
+    window->draw(playText);
+
+    if (selectedOption == 1)
+    {
+        controlsText.setFillColor(neonSelect);
+        controlsText.setCharacterSize(75);
+    }
+    else
+    {
+        controlsText.setFillColor(textFill);
+        controlsText.setCharacterSize(50);
+    }
+    centerOrigin(controlsText);
+    controlsText.setFillColor(applyAlpha(controlsText.getFillColor()));
+    window->draw(controlsText);
+
+    if (selectedOption == 2)
+    {
+        creditsText.setFillColor(neonSelect);
+        creditsText.setCharacterSize(75);
+    }
+    else
+    {
+        creditsText.setFillColor(textFill);
+        creditsText.setCharacterSize(50);
+    }
+    centerOrigin(creditsText);
+    creditsText.setFillColor(applyAlpha(creditsText.getFillColor()));
+    window->draw(creditsText);
+
+    if (selectedOption == 3)
+    {
+        quitText.setFillColor(neonSelect);
+        quitText.setCharacterSize(75);
+    }
+    else
+    {
+        quitText.setFillColor(textFill);
+        quitText.setCharacterSize(50);
+    }
+    centerOrigin(quitText);
+    quitText.setFillColor(applyAlpha(quitText.getFillColor()));
+    window->draw(quitText);
+}
+
+void TitleScreen::moveSelectionUp()
+{
+    selectedOption = (selectedOption - 1 + numMenuOptions) % numMenuOptions;
+}
+
+void TitleScreen::moveSelectionDown()
+{
+    selectedOption = (selectedOption + 1) % numMenuOptions;
+}
+
+// Select the currently highlighted option
+void TitleScreen::select(MainManager *mainManager)
+{
+    // Handle menu selection
+    switch (selectedOption)
+    {
+    case 0:
+        mainManager->setCurrentState(GameState::Playing);
+        break;
+    case 1:
+        mainManager->setCurrentState(GameState::Controls);
+        break;
+    case 2:
+        mainManager->setCurrentState(GameState::Credits);
+        break;
+    case 3:
+        mainManager->window()->close();
+        break;
+    }
 }

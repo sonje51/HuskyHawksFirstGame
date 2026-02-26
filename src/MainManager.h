@@ -3,6 +3,7 @@
 
 #include "TitleScreen.h"
 #include "GameManager.h"
+#include "GameState.h"
 
 class MainManager
 {
@@ -12,21 +13,18 @@ public:
 
     void updateWindow();
 
-    void continueFromTitleScreen();
-
     sf::RenderWindow *window();
     TitleScreen *titleScreen();
     GameManager *gameManager();
-    bool showingTitleScreen();
-    bool playingGame();
+    GameState getCurrentState();
+    void setCurrentState(const GameState &state);
 
 private:
     sf::RenderWindow *_window;
     TitleScreen *_titleScreen;
     GameManager *_gameManager;
 
-    bool _showingTitleScreen;
-    bool _playingGame;
+    GameState currentState;
 };
 
 #endif

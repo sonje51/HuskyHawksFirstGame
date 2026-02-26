@@ -26,7 +26,6 @@ int main()
         while (const std::optional event = window.pollEvent())
         {
             inputManager.processEvent(event);
-            inputManager.update();
         }
 
         window.clear();

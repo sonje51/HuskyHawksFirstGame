@@ -5,34 +5,26 @@ MainManager::MainManager(sf::RenderWindow *window, TitleScreen *titleScreen,
     : _window(window),
       _titleScreen(titleScreen),
       _gameManager(gameManager),
-      _showingTitleScreen(true),
-      _playingGame(false)
+      currentState(GameState::Menu)
 {
 }
 
 // Update the window
 void MainManager::updateWindow()
 {
-    if (_showingTitleScreen)
+    if (currentState == GameState::Menu)
     {
         _titleScreen->drawTitleScreen();
     }
-    if (_playingGame)
+    if (currentState == GameState::Playing)
     {
         _gameManager->drawGame();
     }
 }
 
-// Advance the game from being in the title screen
-void MainManager::continueFromTitleScreen()
-{
-    _showingTitleScreen = false;
-    _playingGame = true;
-}
-
-// Getters
+// Getters and setters
 sf::RenderWindow *MainManager::window() { return _window; }
 TitleScreen *MainManager::titleScreen() { return _titleScreen; }
 GameManager *MainManager::gameManager() { return _gameManager; }
-bool MainManager::showingTitleScreen() { return _showingTitleScreen; }
-bool MainManager::playingGame() { return _playingGame; }
+GameState MainManager::getCurrentState() { return currentState; }
+void MainManager::setCurrentState(const GameState &state) { currentState = state; }
