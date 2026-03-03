@@ -11,6 +11,7 @@ public:
     MainManager(sf::RenderWindow *window, TitleScreen *titleScreen,
                 GameManager *gameManager);
 
+    void updateGame(float timeSinceLastUpdate);
     void updateWindow();
 
     sf::RenderWindow *window();

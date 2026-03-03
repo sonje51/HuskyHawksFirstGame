@@ -20,6 +20,7 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(main
   src/main.cpp
+  src/Ball.cpp
   src/GameManager.cpp
   src/InputManager.cpp
   src/MainManager.cpp

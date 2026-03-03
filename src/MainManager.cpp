@@ -9,6 +9,15 @@ MainManager::MainManager(sf::RenderWindow *window, TitleScreen *titleScreen,
 {
 }
 
+// Process automatic updates
+void MainManager::updateGame(float timeSinceLastUpdate)
+{
+    if (currentState == GameState::Playing)
+    {
+        _gameManager->updateGame(timeSinceLastUpdate);
+    }
+}
+
 // Update the window
 void MainManager::updateWindow()
 {

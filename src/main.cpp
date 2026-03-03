@@ -15,6 +15,8 @@ int main()
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "Breakout by HuskyHawks");
     window.setFramerateLimit(60);
 
+    sf::Clock clock;
+
     TitleScreen titleScreen(&window, WIDTH, HEIGHT);
     GameManager gameManager(&window, WIDTH, HEIGHT);
     MainManager mainManager(&window, &titleScreen, &gameManager);
@@ -23,6 +25,9 @@ int main()
     // Main loop
     while (window.isOpen())
     {
+        float timeSinceLastFrame = clock.restart().asSeconds();
+        mainManager.updateGame(timeSinceLastFrame);
+
         while (const std::optional event = window.pollEvent())
         {
             inputManager.processEvent(event);
