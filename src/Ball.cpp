@@ -46,3 +46,24 @@ void Ball::move(float deltaTime)
         directionY *= -1;
     }
 }
+
+void Ball::checkPadCollision(sf::FloatRect padBounds)
+{
+    float ballLeft = posX;
+    float ballRight = posX + (ballRadius * 2);
+    float ballTop = posY;
+    float ballBottom = posY + (ballRadius * 2);
+
+    float padLeft = padBounds.position.x;
+    float padRight = padBounds.position.x + padBounds.size.x;
+    float padTop = padBounds.position.y;
+    float padBottom = padBounds.position.y + padBounds.size.y;
+
+    if (ballRight > padLeft && ballLeft < padRight &&
+        ballBottom > padTop && ballTop < padBottom)
+    {
+        posY = padTop - (ballRadius * 2);
+        ballCircle.setPosition({posX, posY});
+        directionY *= -1;
+    }
+}

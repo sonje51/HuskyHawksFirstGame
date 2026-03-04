@@ -10,6 +10,7 @@ public:
     void drawPad();
     void moveRight();
     void moveLeft();
+    sf::FloatRect getBounds() const;
 
 private:
     sf::RenderWindow *window;

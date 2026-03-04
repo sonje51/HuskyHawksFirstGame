@@ -9,6 +9,7 @@ public:
     Ball(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT);
     void drawBall();
     void move(float deltaTime);
+    void checkPadCollision(sf::FloatRect padBounds);
 
 private:
     sf::RenderWindow *window;
