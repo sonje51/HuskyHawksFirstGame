@@ -37,3 +37,8 @@ void Pad::moveLeft()
     posX = std::max(posX - moveSpeed, minPosX);
     padRect.setPosition({posX, posY});
 }
+
+sf::FloatRect Pad::getBounds() const
+{
+    return padRect.getGlobalBounds();
+}

@@ -12,6 +12,7 @@ GameManager::GameManager(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
 void GameManager::updateGame(float timeSinceLastUpdate)
 {
     gameBall.move(timeSinceLastUpdate);
+    gameBall.checkPadCollision(gamePad.getBounds());
 }
 
 // Draw the game
