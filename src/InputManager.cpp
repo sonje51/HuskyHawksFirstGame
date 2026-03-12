@@ -1,5 +1,13 @@
+//InputManager.cpp
+
 #include "InputManager.h"
 #include <iostream>
+
+
+/*
+// Constructor
+// Initializes the InputManager with pointers to MainManager, TitleScreen, and GameManager
+*/
 InputManager::InputManager(MainManager *_mainManager, TitleScreen *_titleScreen, GameManager *_gameManager)
     : mainManager(_mainManager),
       titleScreen(_titleScreen),
@@ -7,7 +15,11 @@ InputManager::InputManager(MainManager *_mainManager, TitleScreen *_titleScreen,
 {
 }
 
+/*
+// processEvent
+// Central event handler. Determines which specific handler to call based on current game state.
 // Given an event, determine what to do, if anything
+*/
 void InputManager::processEvent(const std::optional<sf::Event> &event)
 {
     if (event->is<sf::Event::Closed>())
@@ -49,6 +61,10 @@ void InputManager::processEvent(const std::optional<sf::Event> &event)
     }
 }
 
+/*
+// processEventInMenu
+// Handles input when the game is in the menu state
+*/
 void InputManager::processEventInMenu(const std::optional<sf::Event> &event)
 {
     if (event->is<sf::Event::KeyPressed>())
@@ -73,6 +89,10 @@ void InputManager::processEventInMenu(const std::optional<sf::Event> &event)
     }
 }
 
+/*
+// processEventWhilePlaying
+// Handles input when the game is in active play
+*/
 void InputManager::processEventWhilePlaying(const std::optional<sf::Event> &event)
 {
     if (event->is<sf::Event::KeyPressed>())
@@ -91,16 +111,26 @@ void InputManager::processEventWhilePlaying(const std::optional<sf::Event> &even
     }
 }
 
+/*
+// processEventWhilePaused
+// Handles input when the game is paused
+*/
 void InputManager::processEventWhilePaused(const std::optional<sf::Event> &event)
 {
     // Paused input here
 }
 
+/*
+// processEventInControls
+// Handles input when viewing the controls screen
+*/
 void InputManager::processEventInControls(const std::optional<sf::Event> &event)
 {
     // Controls menu input here
 }
 
+// processEventInCredits
+// Handles input when viewing the credits screen
 void InputManager::processEventInCredits(const std::optional<sf::Event> &event)
 {
     // Credits input here
