@@ -4,6 +4,9 @@
 #define BALL_H
 
 #include <SFML/Graphics.hpp>
+#include "Block.h"
+#include <vector>
+using namespace std;
 
 /*
 // Ball Class
@@ -25,6 +28,7 @@ public:
     void drawBall(); //Draws the ball on the window using the SFML CircleShape.
     void move(float deltaTime); //Moves the ball according to its speed and current direction.
     void checkPadCollision(sf::FloatRect padBounds); //Checks if the ball collides with the paddle and adjusts direction if it does.
+    int checkBlockCollision(vector<Block> &blocks);
 
 //Variables
 private:
