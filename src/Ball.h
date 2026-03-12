@@ -2,6 +2,9 @@
 #define BALL_H
 
 #include <SFML/Graphics.hpp>
+#include "Block.h"
+#include <vector>
+using namespace std;
 
 class Ball
 {
@@ -10,6 +13,7 @@ public:
     void drawBall();
     void move(float deltaTime);
     void checkPadCollision(sf::FloatRect padBounds);
+    int checkBlockCollision(vector<Block> &blocks);
 
 private:
     sf::RenderWindow *window;
