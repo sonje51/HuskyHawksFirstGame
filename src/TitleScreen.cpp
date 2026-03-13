@@ -1,3 +1,5 @@
+//TitleScreen.cpp
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
@@ -5,7 +7,10 @@
 #include "TitleScreen.h"
 #include "MainManager.h"
 
-// Default constructor
+/*
+// Constructor
+// Sets up the title screen visuals, fonts, menu options, and neon accents.
+*/
 TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT)
     : window(_window),
       bgTop(10, 6, 25),
@@ -30,7 +35,7 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
       alpha(0.f),
       alphaSpeed(1.5f), // Increase for faster fade
       numMenuOptions(4),
-      selectedOption(0)
+      selectedOption(0) //Set to menu option
 {
     // Background gradient using two rectangles
     topRect.setPosition({0.f, 0.f});
@@ -60,6 +65,8 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
     }
 
     // titleText.setFont(font);
+
+    // Title and subtitle text setup
     titleText.setString("BREAKOUT");
     titleText.setCharacterSize(160);
     titleText.setFillColor(textFill);
@@ -78,19 +85,21 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
     promptText.setCharacterSize(50);
     promptText.setFillColor(sf::Color(220, 220, 255));
 
-    // Menu Options
-    // playText
+    // Menu options text setup
     playText.setString("Play");
     playText.setCharacterSize(50);
     playText.setFillColor(textFill);
+
     // controlsText
     controlsText.setString("Controls");
     controlsText.setCharacterSize(50);
     controlsText.setFillColor(textFill);
+
     // creditsText
     creditsText.setString("Credits");
     creditsText.setCharacterSize(50);
     creditsText.setFillColor(textFill);
+
     // quitText
     quitText.setString("Quit");
     quitText.setCharacterSize(50);
@@ -134,7 +143,10 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
     titlePlaceholder.setPosition({WIDTH * 0.5f - titlePlaceholder.getSize().x / 2.f, HEIGHT * 0.22f});
 }
 
-// Draw the title screen on the window
+/*
+// drawTitleScreen
+// Draws the title screen, background, neon accents, title, subtitle, and menu options
+*/
 void TitleScreen::drawTitleScreen()
 {
     // Update fade-in alpha

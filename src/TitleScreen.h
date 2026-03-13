@@ -1,3 +1,5 @@
+//TitleScreen.h
+
 #ifndef TITLESCREEN_H
 #define TITLESCREEN_H
 
@@ -5,8 +7,19 @@
 class MainManager; // Forward declaration to avoid circular inclusion
 #include "GameState.h"
 
+/*
+// TitleScreen Class
+// Handles the game's title screen menu, including visual design and user selection.
+// Responsible for drawing the menu, highlighting options, and navigating selections.
+*/
 class TitleScreen
 {
+
+/*
+// Constructor
+// _window: pointer to the SFML window
+// WIDTH, HEIGHT: dimensions of the window
+*/
 public:
     TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT);
     void drawTitleScreen();
@@ -15,6 +28,9 @@ public:
     int getSelectedOption();
     void select(MainManager *mainManager);
 
+/*
+//Window Pointer
+*/
 private:
     sf::RenderWindow *window;
 
@@ -26,12 +42,14 @@ private:
     const sf::Color neonSelect; // neon orange
     const sf::Color textFill;
 
+    // SFML Shapes for UI elements
     sf::RectangleShape topRect;
     sf::RectangleShape bottomRect;
     sf::RectangleShape leftNeon;
     sf::RectangleShape rightNeon;
     sf::RectangleShape neonBar;
 
+    // Text elements
     sf::Font font;
     sf::Text titleText;
     sf::Text subtitleText;
@@ -42,6 +60,7 @@ private:
     sf::Text quitText;
     sf::RectangleShape titlePlaceholder;
 
+    // Menu selection
     float alpha;
     const float alphaSpeed;
     const int numMenuOptions;

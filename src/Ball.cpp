@@ -1,9 +1,19 @@
+//Ball.cpp
+
 #include "Ball.h"
 #include <iostream>
 #include <cmath>
 
 const float PI = 3.14159265358979323846;
 
+/*
+// Constructor
+// Initializes the ball with its starting position, color, speed, and direction
+// Parameters:
+//   _window - pointer to the SFML window to draw the ball
+//   WIDTH   - width of the game window
+//   HEIGHT  - height of the game window
+*/
 Ball::Ball(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT)
     : window(_window),
       ballRadius(15),
@@ -19,6 +29,7 @@ Ball::Ball(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT)
       directionX(1),
       directionY(1)
 {
+    //initial position and color of the ball
     ballCircle.setPosition({posX, posY});
     ballCircle.setFillColor(ballColor);
 }
@@ -29,7 +40,11 @@ void Ball::drawBall()
     window->draw(ballCircle);
 }
 
-// Moves the ball in the direction it is currently going
+/*
+// move
+// Updates the ball's position based on speed, direction, and elapsed time.
+// deltaTime - time elapsed since last frame (in seconds) for smooth movement
+*/
 void Ball::move(float deltaTime)
 {
     // Update position
@@ -37,7 +52,7 @@ void Ball::move(float deltaTime)
     posY = std::max(std::min(posY + (moveSpeed * deltaTime * directionY), maxPosY), minPosY);
     ballCircle.setPosition({posX, posY});
 
-    // If hit the edge, switch directions
+    // If hit the edge, switch directions, reverse horizonal direction
     if (posX == minPosX || posX == maxPosX)
     {
         directionX *= -1;
@@ -48,24 +63,32 @@ void Ball::move(float deltaTime)
     }
 }
 
+/*
+// checkPadCollision
+// Checks for collision between the ball and the paddle
+// padBounds - SFML FloatRect representing the paddle's position and size
+*/
 void Ball::checkPadCollision(sf::FloatRect padBounds)
 {
+    //ball's edges
     float ballLeft = posX;
     float ballRight = posX + (ballRadius * 2);
     float ballTop = posY;
     float ballBottom = posY + (ballRadius * 2);
 
+    //paddle's edges
     float padLeft = padBounds.position.x;
     float padRight = padBounds.position.x + padBounds.size.x;
     float padTop = padBounds.position.y;
     float padBottom = padBounds.position.y + padBounds.size.y;
 
+    // Checks overlap between the ball and the paddle
     if (ballRight > padLeft && ballLeft < padRight &&
         ballBottom > padTop && ballTop < padBottom)
     {
         posY = padTop - (ballRadius * 2);
         ballCircle.setPosition({posX, posY});
-        directionY *= -1;
+        directionY *= -1; //reverse vertical direction of ball
     }
 }
 

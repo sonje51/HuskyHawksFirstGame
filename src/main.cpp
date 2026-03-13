@@ -1,3 +1,5 @@
+//main.cpp
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
@@ -9,12 +11,16 @@
 #include "InputManager.h"
 #include "MainManager.h"
 
+/**
+// Main function
+// Initializes the game window, sets up game managers, and runs the main loop.
+ */
 int main()
 {
-    const unsigned int WIDTH = 1920;
-    const unsigned int HEIGHT = 1080;
+    const unsigned int WIDTH = 1920; //window width
+    const unsigned int HEIGHT = 1080; //window height
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "Breakout by HuskyHawks");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(60); //Limit the framerate to 60 frames per second
 
     sf::Clock clock;
 
@@ -30,15 +36,21 @@ int main()
         blocks.push_back(Block(&window, 250 * i - 200, 350, 150, 150, sf::Color(200, 200, 200), sf::Color(255, 255, 255)));
     }
 
-    TitleScreen titleScreen(&window, WIDTH, HEIGHT);
+    /*
+    // Game component initializations
+    */
+    TitleScreen titleScreen(&window, WIDTH, HEIGHT); //title screen with game title and menu
     GameManager gameManager(&window, WIDTH, HEIGHT, blocks);
-    MainManager mainManager(&window, &titleScreen, &gameManager);
-    InputManager inputManager(&mainManager, &titleScreen, &gameManager);
+    MainManager mainManager(&window, &titleScreen, &gameManager); //management for title screen and game manager
+    InputManager inputManager(&mainManager, &titleScreen, &gameManager); //players inputs to game logic
 
-    // Main loop
+
+    /*
+    //Main Game Loop
+    */
     while (window.isOpen())
     {
-        float timeSinceLastFrame = clock.restart().asSeconds();
+        float timeSinceLastFrame = clock.restart().asSeconds(); 
         mainManager.updateGame(timeSinceLastFrame);
 
         while (const std::optional event = window.pollEvent())
@@ -46,6 +58,7 @@ int main()
             inputManager.processEvent(event);
         }
 
+        //Rendering
         window.clear();
         mainManager.updateWindow();
         window.display();
