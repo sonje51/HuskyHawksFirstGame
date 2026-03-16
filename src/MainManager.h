@@ -2,6 +2,7 @@
 #define MAIN_MANAGER_H
 
 #include "TitleScreen.h"
+#include "PauseScreen.h"
 #include "GameManager.h"
 #include "GameState.h"
 
@@ -9,7 +10,7 @@ class MainManager
 {
 public:
     MainManager(sf::RenderWindow *window, TitleScreen *titleScreen,
-                GameManager *gameManager);
+                PauseScreen *pauseScreen, GameManager *gameManager);
 
     void updateGame(float timeSinceLastUpdate);
     void updateWindow();
@@ -24,6 +25,7 @@ private:
     sf::RenderWindow *_window;
     TitleScreen *_titleScreen;
     GameManager *_gameManager;
+    PauseScreen *_pauseScreen;
 
     GameState currentState;
 };

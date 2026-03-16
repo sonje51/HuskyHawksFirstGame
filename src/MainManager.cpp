@@ -1,10 +1,11 @@
 #include "MainManager.h"
 
 MainManager::MainManager(sf::RenderWindow *window, TitleScreen *titleScreen,
-                         GameManager *gameManager)
+                         PauseScreen *pauseScreen, GameManager *gameManager)
     : _window(window),
       _titleScreen(titleScreen),
       _gameManager(gameManager),
+      _pauseScreen(pauseScreen),
       currentState(GameState::Menu)
 {
 }
@@ -28,6 +29,11 @@ void MainManager::updateWindow()
     if (currentState == GameState::Playing)
     {
         _gameManager->drawGame();
+    }
+    if (currentState == GameState::Paused)
+    {
+        _gameManager->drawGame();
+        _pauseScreen->draw();
     }
 }
 

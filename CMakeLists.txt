@@ -27,6 +27,7 @@ add_executable(main
   src/Pad.cpp
   src/Block.cpp
   src/TitleScreen.cpp
+  src/PauseScreen.cpp
 )
 target_compile_features(main PRIVATE cxx_std_17)
 

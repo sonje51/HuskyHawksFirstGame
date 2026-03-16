@@ -31,9 +31,10 @@ int main()
     }
 
     TitleScreen titleScreen(&window, WIDTH, HEIGHT);
+    PauseScreen pauseScreen(&window, WIDTH, HEIGHT);
     GameManager gameManager(&window, WIDTH, HEIGHT, blocks);
-    MainManager mainManager(&window, &titleScreen, &gameManager);
-    InputManager inputManager(&mainManager, &titleScreen, &gameManager);
+    MainManager mainManager(&window, &titleScreen, &pauseScreen, &gameManager);
+    InputManager inputManager(&mainManager, &titleScreen, &pauseScreen, &gameManager);
 
     // Main loop
     while (window.isOpen())

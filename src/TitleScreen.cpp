@@ -53,7 +53,7 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
 
     // Try to load a font from assets; if missing, we'll use a placeholder title shape
     bool fontLoaded = false;
-    if (!font.openFromFile("assets/fonts/RetroRegular.ttf"))
+    if (!font.openFromFile("assets/fonts/RetroRegular.ttf") && !font.openFromFile("../../../assets/fonts/RetroRegular.ttf"))
     {
         std::cerr << "Failed to load assets/fonts/RetroRegular.ttf\n";
         assert(false);

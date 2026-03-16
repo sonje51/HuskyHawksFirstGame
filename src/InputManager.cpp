@@ -1,8 +1,13 @@
+
 #include "InputManager.h"
+#include "PauseScreen.h"
 #include <iostream>
-InputManager::InputManager(MainManager *_mainManager, TitleScreen *_titleScreen, GameManager *_gameManager)
+
+InputManager::InputManager(MainManager *_mainManager, TitleScreen *_titleScreen, 
+                           PauseScreen *_pauseScreen, GameManager *_gameManager)
     : mainManager(_mainManager),
       titleScreen(_titleScreen),
+      pauseScreen(_pauseScreen),
       gameManager(_gameManager)
 {
 }
@@ -88,12 +93,38 @@ void InputManager::processEventWhilePlaying(const std::optional<sf::Event> &even
         {
             gameManager->pad().moveRight();
         }
+        else if (keyEvent->scancode == sf::Keyboard::Scancode::Escape)
+        {
+            mainManager->setCurrentState(GameState::Paused);
+        }
     }
 }
 
 void InputManager::processEventWhilePaused(const std::optional<sf::Event> &event)
 {
-    // Paused input here
+    if (event->is<sf::Event::KeyPressed>())
+    {
+        auto keyEvent = event->getIf<sf::Event::KeyPressed>();
+
+        if (keyEvent->scancode == sf::Keyboard::Scancode::Up)
+        {
+            pauseScreen->moveSelectionUp();
+        }
+        else if (keyEvent->scancode == sf::Keyboard::Scancode::Down)
+        {
+            pauseScreen->moveSelectionDown();
+        }
+        else if (keyEvent->scancode == sf::Keyboard::Scancode::Enter)
+        {
+            pauseScreen->select(mainManager, gameManager);
+        }
+        else if (keyEvent->scancode == sf::Keyboard::Scancode::Escape)
+        {
+            // Resume game
+            mainManager->setCurrentState(GameState::Playing);
+            pauseScreen->resetSelection();  // Reset selection to Restart
+        }
+    }
 }
 
 void InputManager::processEventInControls(const std::optional<sf::Event> &event)

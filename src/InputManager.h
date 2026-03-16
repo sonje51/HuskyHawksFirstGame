@@ -6,10 +6,13 @@
 #include "GameManager.h"
 #include <optional>
 
+class PauseScreen;
+
 class InputManager
 {
 public:
-    InputManager(MainManager *_mainManager, TitleScreen *_titleScreen, GameManager *_gameManager);
+    InputManager(MainManager *_mainManager, TitleScreen *_titleScreen, 
+                PauseScreen *_pauseScreen, GameManager *_gameManager);
 
     void processEvent(const std::optional<sf::Event> &event);
 
@@ -22,6 +25,7 @@ public:
 private:
     MainManager *mainManager;
     TitleScreen *titleScreen;
+    PauseScreen *pauseScreen;
     GameManager *gameManager;
 };
 

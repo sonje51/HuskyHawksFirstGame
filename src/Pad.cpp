@@ -11,7 +11,7 @@ Pad::Pad(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT)
       minPosX(25),
       maxPosX(WIDTH - padWidth - 25),
       moveSpeed(20),
-      padColor(10, 200, 10),
+      padColor(0, 255, 0),
       padRect(sf::Vector2f(padWidth, padHeight))
 {
     padRect.setPosition({posX, posY});
