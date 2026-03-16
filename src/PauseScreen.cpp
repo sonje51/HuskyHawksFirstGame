@@ -23,32 +23,28 @@ PauseScreen::PauseScreen(sf::RenderWindow* window, unsigned int WIDTH, unsigned 
     _overlay.setFillColor(sf::Color(0, 0, 0, 153)); // Black with 60% opacity (153/255)
 
     // Pause title
-    _pauseText.setFont(_font);
     _pauseText.setString("PAUSED");
     _pauseText.setCharacterSize(120);
-    _pauseText.setFillColor(sf::Color::White);
+    _pauseText.setFillColor(GameColors::textFill);
     centerOrigin(_pauseText);
     _pauseText.setPosition({WIDTH * 0.5f, HEIGHT * 0.3f});
 
     // Menu options
-    _resumeText.setFont(_font);
     _resumeText.setString("Resume");
     _resumeText.setCharacterSize(50);
-    _resumeText.setFillColor(sf::Color::White);
+    _resumeText.setFillColor(GameColors::textFill);
     centerOrigin(_resumeText);
     _resumeText.setPosition({WIDTH * 0.5f, HEIGHT * 0.45f});
 
-    _restartText.setFont(_font);
     _restartText.setString("Restart");
     _restartText.setCharacterSize(50);
-    _restartText.setFillColor(sf::Color::White);
+    _restartText.setFillColor(GameColors::textFill);
     centerOrigin(_restartText);
     _restartText.setPosition({WIDTH * 0.5f, HEIGHT * 0.55f});
 
-    _quitText.setFont(_font);
     _quitText.setString("Quit to Menu");
     _quitText.setCharacterSize(50);
-    _quitText.setFillColor(sf::Color::White);
+    _quitText.setFillColor(GameColors::textFill);
     centerOrigin(_quitText);
     _quitText.setPosition({WIDTH * 0.5f, HEIGHT * 0.65f});
 }
@@ -70,18 +66,17 @@ void PauseScreen::draw()
 
     // Draw menu options with highlighting
     sf::Text* options[3] = {&_resumeText, &_restartText, &_quitText};
-    sf::Color highlightColor = sf::Color::Cyan; // Use neonMain from TitleScreen
     
     for (int i = 0; i < 3; i++)
     {
         if (i == _selectedOption)
         {
-            options[i]->setFillColor(sf::Color(255,200,0));
+            options[i]->setFillColor(GameColors::neonSelect);
             options[i]->setCharacterSize(60);
         }
         else
         {
-            options[i]->setFillColor(sf::Color::White);
+            options[i]->setFillColor(GameColors::textFill);
             options[i]->setCharacterSize(50);
         }
         centerOrigin(*options[i]);

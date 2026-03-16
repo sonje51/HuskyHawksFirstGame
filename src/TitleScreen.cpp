@@ -8,12 +8,6 @@
 // Default constructor
 TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT)
     : window(_window),
-      bgTop(10, 6, 25),
-      bgBottom(6, 20, 40),
-      neonMain(0, 255, 200),
-      neonAccent(255, 0, 200),
-      neonSelect(255, 200, 0),
-      textFill(230, 230, 255),
       topRect(sf::Vector2f((float)WIDTH, (float)HEIGHT / 2.f)),
       bottomRect(sf::Vector2f((float)WIDTH, (float)HEIGHT / 2.f)),
       leftNeon(sf::Vector2f(6.f, (float)HEIGHT * 0.6f)),
@@ -34,26 +28,26 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
 {
     // Background gradient using two rectangles
     topRect.setPosition({0.f, 0.f});
-    topRect.setFillColor(bgTop);
+    topRect.setFillColor(GameColors::bgTop);
 
     bottomRect.setPosition({0.f, (float)HEIGHT / 2.f});
-    bottomRect.setFillColor(bgBottom);
+    bottomRect.setFillColor(GameColors::bgBottom);
 
     // Decorative neon lines
     leftNeon.setPosition({80.f, (float)HEIGHT * 0.2f});
-    leftNeon.setFillColor(neonAccent);
+    leftNeon.setFillColor(GameColors::neonAccent);
     leftNeon.setOutlineThickness(2.f);
     leftNeon.setOutlineColor(sf::Color(255, 255, 255, 30));
 
     rightNeon.setPosition({(float)WIDTH - 86.f, (float)HEIGHT * 0.2f});
-    rightNeon.setFillColor(neonAccent);
+    rightNeon.setFillColor(GameColors::neonAccent);
 
     neonBar.setOrigin({neonBar.getSize().x / 2.f, neonBar.getSize().y / 2.f});
     neonBar.setPosition({WIDTH * 0.5f, HEIGHT * 0.58f});
 
     // Try to load a font from assets; if missing, we'll use a placeholder title shape
     bool fontLoaded = false;
-    if (!font.openFromFile("assets/fonts/RetroRegular.ttf") && !font.openFromFile("../../../assets/fonts/RetroRegular.ttf"))
+    if (!font.openFromFile("../../../assets/fonts/RetroRegular.ttf"))
     {
         std::cerr << "Failed to load assets/fonts/RetroRegular.ttf\n";
         assert(false);
@@ -62,7 +56,7 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
     // titleText.setFont(font);
     titleText.setString("BREAKOUT");
     titleText.setCharacterSize(160);
-    titleText.setFillColor(textFill);
+    titleText.setFillColor(GameColors::textFill);
     titleText.setStyle(sf::Text::Bold);
 
     // Neon glow effect by outline and duplicated draws (we'll draw glow manually)
@@ -71,30 +65,30 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
     // subtitleText.setFont(font);
     subtitleText.setString("A HuskyHawks take on Breakout");
     subtitleText.setCharacterSize(36);
-    subtitleText.setFillColor(sf::Color(200, 200, 220));
+    subtitleText.setFillColor(GameColors::subtitleFill);
 
     // promptText.setFont(font);
     promptText.setString("Press any key to start");
     promptText.setCharacterSize(50);
-    promptText.setFillColor(sf::Color(220, 220, 255));
+    promptText.setFillColor(GameColors::promptFill);
 
     // Menu Options
     // playText
     playText.setString("Play");
     playText.setCharacterSize(50);
-    playText.setFillColor(textFill);
+    playText.setFillColor(GameColors::textFill);
     // controlsText
     controlsText.setString("Controls");
     controlsText.setCharacterSize(50);
-    controlsText.setFillColor(textFill);
+    controlsText.setFillColor(GameColors::textFill);
     // creditsText
     creditsText.setString("Credits");
     creditsText.setCharacterSize(50);
-    creditsText.setFillColor(textFill);
+    creditsText.setFillColor(GameColors::textFill);
     // quitText
     quitText.setString("Quit");
     quitText.setCharacterSize(50);
-    quitText.setFillColor(textFill);
+    quitText.setFillColor(GameColors::textFill);
 
     // Positioning helper (center)
     auto centerOrigin = [](sf::Text &t)
@@ -130,7 +124,7 @@ TitleScreen::TitleScreen(sf::RenderWindow *_window, unsigned int WIDTH, unsigned
     // Placeholder title rectangle
     titlePlaceholder.setFillColor(sf::Color::Transparent);
     titlePlaceholder.setOutlineThickness(6.f);
-    titlePlaceholder.setOutlineColor(neonMain);
+    titlePlaceholder.setOutlineColor(GameColors::neonMain);
     titlePlaceholder.setPosition({WIDTH * 0.5f - titlePlaceholder.getSize().x / 2.f, HEIGHT * 0.22f});
 }
 
@@ -148,12 +142,12 @@ void TitleScreen::drawTitleScreen()
         return c;
     };
 
-    topRect.setFillColor(applyAlpha(bgTop));
-    bottomRect.setFillColor(applyAlpha(bgBottom));
-    leftNeon.setFillColor(applyAlpha(neonAccent));
-    rightNeon.setFillColor(applyAlpha(neonAccent));
-    neonBar.setFillColor(applyAlpha(neonMain));
-    titlePlaceholder.setOutlineColor(applyAlpha(neonMain));
+    topRect.setFillColor(applyAlpha(GameColors::bgTop));
+    bottomRect.setFillColor(applyAlpha(GameColors::bgBottom));
+    leftNeon.setFillColor(applyAlpha(GameColors::neonAccent));
+    rightNeon.setFillColor(applyAlpha(GameColors::neonAccent));
+    neonBar.setFillColor(applyAlpha(GameColors::neonMain));
+    titlePlaceholder.setOutlineColor(applyAlpha(GameColors::neonMain));
     promptText.setFillColor(applyAlpha(promptText.getFillColor()));
 
     // Render
@@ -173,13 +167,13 @@ void TitleScreen::drawTitleScreen()
     {
         float scale = 1.f + i * 0.0025f;
         glow.setScale({scale, scale});
-        sf::Color glowColor = neonMain;
+        sf::Color glowColor = GameColors::neonMain;
         glowColor.a = static_cast<uint8_t>(std::max(0.f, alpha - i * 20.f));
         glow.setFillColor(glowColor);
         window->draw(glow);
     }
     // Final crisp title
-    titleText.setFillColor(applyAlpha(textFill));
+    titleText.setFillColor(applyAlpha(GameColors::textFill));
     window->draw(titleText);
 
     // Subtitle and prompt
@@ -202,12 +196,12 @@ void TitleScreen::drawTitleScreen()
     // Menu options
     if (selectedOption == 0)
     {
-        playText.setFillColor(neonSelect);
+        playText.setFillColor(GameColors::neonSelect);
         playText.setCharacterSize(75);
     }
     else
     {
-        playText.setFillColor(textFill);
+        playText.setFillColor(GameColors::textFill);
         playText.setCharacterSize(50);
     }
     centerOrigin(playText);
@@ -216,12 +210,12 @@ void TitleScreen::drawTitleScreen()
 
     if (selectedOption == 1)
     {
-        controlsText.setFillColor(neonSelect);
+        controlsText.setFillColor(GameColors::neonSelect);
         controlsText.setCharacterSize(75);
     }
     else
     {
-        controlsText.setFillColor(textFill);
+        controlsText.setFillColor(GameColors::textFill);
         controlsText.setCharacterSize(50);
     }
     centerOrigin(controlsText);
@@ -230,12 +224,12 @@ void TitleScreen::drawTitleScreen()
 
     if (selectedOption == 2)
     {
-        creditsText.setFillColor(neonSelect);
+        creditsText.setFillColor(GameColors::neonSelect);
         creditsText.setCharacterSize(75);
     }
     else
     {
-        creditsText.setFillColor(textFill);
+        creditsText.setFillColor(GameColors::textFill);
         creditsText.setCharacterSize(50);
     }
     centerOrigin(creditsText);
@@ -244,12 +238,12 @@ void TitleScreen::drawTitleScreen()
 
     if (selectedOption == 3)
     {
-        quitText.setFillColor(neonSelect);
+        quitText.setFillColor(GameColors::neonSelect);
         quitText.setCharacterSize(75);
     }
     else
     {
-        quitText.setFillColor(textFill);
+        quitText.setFillColor(GameColors::textFill);
         quitText.setCharacterSize(50);
     }
     centerOrigin(quitText);

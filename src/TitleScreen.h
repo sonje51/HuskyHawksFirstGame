@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 class MainManager; // Forward declaration to avoid circular inclusion
 #include "GameState.h"
+#include "GameColors.h"
 
 class TitleScreen
 {

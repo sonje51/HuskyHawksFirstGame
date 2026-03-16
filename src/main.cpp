@@ -2,12 +2,13 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-#include "TitleScreen.h"
-#include "Pad.h"
-#include "GameManager.h"
-#include "Block.h"
 #include "InputManager.h"
 #include "MainManager.h"
+#include "GameManager.h"
+#include "GameColors.h"
+#include "TitleScreen.h"
+#include "Pad.h"
+#include "Block.h"
 
 int main()
 {
@@ -21,13 +22,13 @@ int main()
     // Create the list of blocks to be in the game
     // (in future, this should happen in some sort of level creator)
     vector<Block> blocks;
-    blocks.push_back(Block(&window, 1250, 50, 150, 150, sf::Color(200, 0, 0), sf::Color(255, 0, 0)));
-    blocks.push_back(Block(&window, 1500, 50, 150, 150, sf::Color(0, 200, 0), sf::Color(0, 255, 0)));
-    blocks.push_back(Block(&window, 250, 50, 150, 150, sf::Color(0, 0, 200), sf::Color(0, 0, 255)));
-    blocks.push_back(Block(&window, 750, 50, 150, 150, sf::Color(200, 200, 0), sf::Color(255, 255, 0)));
+    blocks.push_back(Block(&window, 1250, 50, 150, 150, GameColors::blockRedDim, GameColors::blockRed));
+    blocks.push_back(Block(&window, 1500, 50, 150, 150, GameColors::blockGreenDim, GameColors::blockGreen));
+    blocks.push_back(Block(&window, 250, 50, 150, 150, GameColors::blockBlueDim, GameColors::blockBlue));
+    blocks.push_back(Block(&window, 750, 50, 150, 150, GameColors::blockYellowDim, GameColors::blockYellow));
     for (int i = 0; i < 6; i++)
     {
-        blocks.push_back(Block(&window, 250 * i - 200, 350, 150, 150, sf::Color(200, 200, 200), sf::Color(255, 255, 255)));
+        blocks.push_back(Block(&window, 250 * i - 200, 350, 150, 150, GameColors::blockWhiteDim, GameColors::blockWhite));
     }
 
     TitleScreen titleScreen(&window, WIDTH, HEIGHT);

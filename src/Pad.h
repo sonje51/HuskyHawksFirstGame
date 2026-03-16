@@ -2,6 +2,7 @@
 #define PAD_H
 
 #include <SFML/Graphics.hpp>
+#include "GameColors.h"
 
 class Pad
 {

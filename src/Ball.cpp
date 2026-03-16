@@ -14,7 +14,7 @@ Ball::Ball(sf::RenderWindow *_window, unsigned int WIDTH, unsigned int HEIGHT)
       minPosY(25),
       maxPosY(HEIGHT - (ballRadius * 2) - 25),
       moveSpeed(300),
-      ballColor(0, 255, 200),
+      ballColor(GameColors::neonMain),
       ballCircle(ballRadius),
       directionX(1),
       directionY(1)

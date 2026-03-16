@@ -2,6 +2,7 @@
 #define BLOCK_H
 
 #include <SFML/Graphics.hpp>
+#include "GameColors.h"
 using namespace std;
 
 class Block

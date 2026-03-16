@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "GameState.h"
+#include "GameColors.h"
 
 // // Forward declaration
 class MainManager;
